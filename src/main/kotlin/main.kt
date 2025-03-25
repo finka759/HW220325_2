@@ -1,14 +1,14 @@
 fun main() {
-    val limit_day: Int = 150_000
-    val limit_month: Int = 600_000
-    val curent_amount: Int = 76000
-    val prev_amounts_in_day: Int = 150_000
-    val prev_amounts_in_mounth: Int = 600_000
-    val cards_type: String = "Mastercard" //"Visa" "Мир"
+    val limitDay: Int = 150_000
+    val limitMonth: Int = 600_000
+    val curentAmount: Int = 76000
+    val prevAmountsInDay: Int = 15_000
+    val prevAmountsInMounth: Int = 60_000
+    val cardsType: String = "Mastercard" //"Visa" "Мир"
 
 
-    if ((curent_amount + prev_amounts_in_day) <= limit_day && (curent_amount + prev_amounts_in_mounth) <= limit_month) {
-        val realTax = getTax(cards_type, prev_amounts_in_mounth, curent_amount)
+    if ((curentAmount + prevAmountsInDay) <= limitDay && (curentAmount + prevAmountsInMounth) <= limitMonth) {
+        val realTax = getTax(cardsType, prevAmountsInMounth, curentAmount)
         if (realTax >= 0) {
             println("Комиссия составит: $realTax")
         } else {
@@ -21,35 +21,35 @@ fun main() {
 
 }
 
-fun get_tax_mastercard(prev_amounts_in_mounth: Int = 0, curent_amount: Int): Int {
+fun getTaxMastercard(prevAmountsInMounth: Int = 0, curentAmount: Int): Int {
     val exemption = 75_000
-    return if (curent_amount + prev_amounts_in_mounth <= exemption) {
+    return if (curentAmount + prevAmountsInMounth <= exemption) {
         0
-    } else ((curent_amount + prev_amounts_in_mounth - exemption) * 0.006 + 20).toInt()
+    } else ((curentAmount + prevAmountsInMounth - exemption) * 0.006 + 20).toInt()
 }
 
-fun get_tax_visa(curent_amount: Int): Int {
+fun getTaxVisa(curentAmount: Int): Int {
     val tax: Float = 0.0075F
     val minTax: Int = 35
-    return if ((curent_amount * tax) > 35) {
-        curent_amount * tax
+    return if ((curentAmount * tax) > 35) {
+        curentAmount * tax
     } else {
         minTax
     }.toInt()
 }
 
-fun get_tax_mir(): Int {
+fun getTaxMir(): Int {
     return 0
 }
 
 fun getTax(
-    cards_type: String = "Мир",
-    prev_amounts_in_mounth: Int = 0,
-    curent_amount: Int
-) = when (cards_type) {
-    "Mastercard" -> get_tax_mastercard(prev_amounts_in_mounth, curent_amount)
-    "Visa" -> get_tax_visa(curent_amount)
-    "Мир" -> get_tax_mir()
+    cardsType: String = "Мир",
+    prevAmountsInMounth: Int = 0,
+    curentAmount: Int
+) = when (cardsType) {
+    "Mastercard" -> getTaxMastercard(prevAmountsInMounth, curentAmount)
+    "Visa" -> getTaxVisa(curentAmount)
+    "Мир" -> getTaxMir()
     else -> {
         -1
     }
